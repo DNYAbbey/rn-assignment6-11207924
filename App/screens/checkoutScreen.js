@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Item } from './components/product';
+
 
 export const CheckOut = () => {
   const [cart, setCart] = useState([]);
@@ -31,32 +31,35 @@ export const CheckOut = () => {
         <View style={styles.header}>
             <View style={styles.logoView}>
             <TouchableOpacity onPress={handleNavigate}>
-                <Image style={styles.logo} source={require('./assets/Logo.png')}/>
+                <Image style={styles.logo} source={require('../assets/Logo.png')}/>
             </TouchableOpacity>
             </View>
            
-            <Image style={styles.searchIcon} source={require('./assets/Search.png')}/>
+            <Image style={styles.searchIcon} source={require('../assets/Search.png')}/>
         </View>
         <Text style={styles.heading}>CheckOut</Text>
-        {cart.map((item) => (
-            <View style={styles.product}  key={item.id} >
-               
-                <Image style={styles.itemImage} source={item.ImageSrc}/>
-                <View style={styles.productRight} >
-                    <Text style={styles.itemName}>{item.name}</Text>
-                    <Text style={styles.description}>{item.description}</Text>
+        <View style={styles.cartList} >
+            {cart.map((item) => (
+                <View style={styles.product}  key={item.id} >
+                
+                    <Image style={styles.itemImage} source={item.ImageSrc}/>
+                    <View style={styles.productRight} >
+                        <Text style={styles.itemName}>{item.name}</Text>
+                        <Text style={styles.description}>{item.description}</Text>
 
-                    <View style={styles.bottom} >
-                        <Text style={styles.price}>{item.price}</Text>
-                        <TouchableOpacity onPress={() => removeFromCart(item.id)}>
-                            <Image style={styles.remove} source={require('./assets/remove.png')} />
-                        </TouchableOpacity>
+                        <View style={styles.bottom} >
+                            <Text style={styles.price}>{item.price}</Text>
+                            <TouchableOpacity onPress={() => removeFromCart(item.id)}>
+                                <Image style={styles.remove} source={require('../assets/remove.png')} />
+                            </TouchableOpacity>
+                        </View>
+                        
                     </View>
                     
                 </View>
-                
-            </View>
-            ))}
+                ))}
+        </View>
+        
 
         <View style={styles.bottomView}>
             <View style={styles.totalView}>
@@ -64,7 +67,7 @@ export const CheckOut = () => {
                 <Text style={styles.total}>$240</Text>
             </View>
             <View style={styles.CheckoutView}>
-                <Image style={styles.shoppingBag} source={require('./assets/icons8-shopping-bag-50.png')} />
+                <Image style={styles.shoppingBag} source={require('../assets/icons8-shopping-bag-50.png')} />
                 <Text style={styles.bottomheading}>CheckOut</Text>
             </View>
         </View>
@@ -107,6 +110,9 @@ const styles = StyleSheet.create({
         marginBottom: '30px',
         alignItems: 'center',
         textAlign: 'center',
+    },
+    cartList: {
+        marginBottom: '120px'
     },
     product: {
         height: '100px',

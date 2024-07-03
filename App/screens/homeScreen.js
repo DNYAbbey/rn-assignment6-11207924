@@ -1,9 +1,10 @@
 import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Alert} from 'react-native';
-import { Item } from './components/product';
+import { Item } from '../components/product';
 import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+  
 export function Home() {
     const navigation = useNavigation();
     const [products, setProducts] = useState([]);
@@ -15,23 +16,24 @@ export function Home() {
 
     useEffect(() => {
     setProducts([
-        { id: '1', name: 'Office Wear', price: '$120', description: 'reversible angora cardigan', ImageSrc: require('./assets/dress1.png') },
-        { id: '2', name: 'Black', price: '$120', description: 'reversible angora cardigan', ImageSrc: require('./assets/dress2.png') },
-        { id: '3', name: 'Church Wear', price: '$120', description: 'reversible angora cardigan', ImageSrc: require('./assets/dress3.png') },
-        { id: '4', name: 'Lamerei', price: '$120', description: 'reversible angora cardigan', ImageSrc: require('./assets/dress4.png') },
-        { id: '5', name: '21WN', price: '$120', description: 'reversible angora cardigan', ImageSrc: require('./assets/dress5.png') },
-        { id: '6', name: 'Lopo', price: '$120', description: 'reversible angora cardigan', ImageSrc: require('./assets/dress6.png') },
-        { id: '7', name: '21WN', price: '$120', description: 'reversible angora cardigan', ImageSrc: require('./assets/dress7.png') },
-        { id: '8', name: 'Lame', price: '$120', description: 'reversible angora cardigan', ImageSrc: require('./assets/dress3.png') },
+        { id: '1', name: 'Office Wear', price: '$120', description: 'reversible angora cardigan', ImageSrc: require('../assets/dress1.png') },
+        { id: '2', name: 'Black', price: '$120', description: 'reversible angora cardigan', ImageSrc: require('../assets/dress2.png') },
+        { id: '3', name: 'Church Wear', price: '$120', description: 'reversible angora cardigan', ImageSrc: require('../assets/dress3.png') },
+        { id: '4', name: 'Lamerei', price: '$120', description: 'reversible angora cardigan', ImageSrc: require('../assets/dress4.png') },
+        { id: '5', name: '21WN', price: '$120', description: 'reversible angora cardigan', ImageSrc: require('../assets/dress5.png') },
+        { id: '6', name: 'Lopo', price: '$120', description: 'reversible angora cardigan', ImageSrc: require('../assets/dress6.png') },
+        { id: '7', name: '21WN', price: '$120', description: 'reversible angora cardigan', ImageSrc: require('../assets/dress7.png') },
+        { id: '8', name: 'Lame', price: '$120', description: 'reversible angora cardigan', ImageSrc: require('../assets/dress3.png') },
     ]);
     }, []);
+
 
     const addToCart = async (product) => {
         try {
             let cart = await AsyncStorage.getItem('cart');
             cart = cart ? JSON.parse(cart) : [];
             const productExists = cart.some(item => item.id === product.id);
-
+            
             if (!productExists) {
                 // Add the new product to the cart
                 cart.push(product);
@@ -48,18 +50,18 @@ export function Home() {
             console.error('Error adding product to cart:', error);
             }
       };
-      
+    
     
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
         <View style={styles.header}>
-            <Image style={styles.menuIcon} source={require('./assets/Menu.png')}/>
-            <Image style={styles.logo} source={require('./assets/Logo.png')}/>
+            <Image style={styles.menuIcon} source={require('../assets/Menu.png')}/>
+            <Image style={styles.logo} source={require('../assets/Logo.png')}/>
             <View style={styles.headerRight}>
-                <Image style={styles.menuIcon} source={require('./assets/Search.png')}/>
+                <Image style={styles.menuIcon} source={require('../assets/Search.png')}/>
                 <TouchableOpacity onPress={handleNavigate}>
-                    <Image style={styles.menuIcon} source={require('./assets/shoppingBag.png')}/>
+                    <Image style={styles.menuIcon} source={require('../assets/shoppingBag.png')}/>
                 </TouchableOpacity>
                 
             </View>
@@ -68,10 +70,10 @@ export function Home() {
             <Text style={styles.heading}>OUR STORY</Text>
             <View style={styles.subheaderRight}>
                 <View style={styles.IconView}>
-                    <Image style={styles.listIcon} source={require('./assets/Listview.png')}/>
+                    <Image style={styles.listIcon} source={require('../assets/Listview.png')}/>
                 </View>
                 <View style={styles.IconView}>
-                    <Image style={styles.filterIcon} source={require('./assets/Filter.png')}/>
+                    <Image style={styles.filterIcon} source={require('../assets/Filter.png')}/>
                 </View>
             </View>
             
@@ -150,3 +152,5 @@ export function Home() {
     },
 
   })
+
+ 

@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     description: {
         fontWeight: 500,
         fontSize: '15.5px',
-        color: 'lightgrey',
+        color: 'grey',
         lineHeight: '18px',
         marginBottom: 5,
     },

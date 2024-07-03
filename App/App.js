@@ -2,8 +2,8 @@ import 'react-native-gesture-handler';
 import { StyleSheet, Text, View, } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack'
-import { Home } from './homeScreen';
-import { CheckOut } from './checkoutScreen';
+import { Home } from './screens/homeScreen';
+import { CheckOut } from './screens/checkoutScreen';
 
 
 
