@@ -1,7 +1,40 @@
-import { View, Text, StyleSheet, Image, ScrollView, } from 'react-native';
+import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity} from 'react-native';
 import { Item } from './components/product';
+import React, { useState, useEffect } from 'react';
+import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 export function Home() {
+    const navigation = useNavigation();
+    const [products, setProducts] = useState([]);
+
+    const handleNavigate = () => {
+        navigation.navigate('checkout');
+      };
+    
+
+    useEffect(() => {
+    setProducts([
+        { id: '1', name: 'Office Wear', price: '$120', description: 'reversible angora cardigan', ImageSrc: require('./assets/dress1.png') },
+        { id: '2', name: 'Black', price: '$120', description: 'reversible angora cardigan', ImageSrc: require('./assets/dress2.png') },
+        { id: '3', name: 'Church Wear', price: '$120', description: 'reversible angora cardigan', ImageSrc: require('./assets/dress3.png') },
+        { id: '4', name: 'Lamerei', price: '$120', description: 'reversible angora cardigan', ImageSrc: require('./assets/dress4.png') },
+        { id: '5', name: '21WN', price: '$120', description: 'reversible angora cardigan', ImageSrc: require('./assets/dress5.png') },
+        { id: '6', name: 'Lopo', price: '$120', description: 'reversible angora cardigan', ImageSrc: require('./assets/dress6.png') },
+        { id: '7', name: '21WN', price: '$120', description: 'reversible angora cardigan', ImageSrc: require('./assets/dress7.png') },
+        { id: '8', name: 'Lame', price: '$120', description: 'reversible angora cardigan', ImageSrc: require('./assets/dress3.png') },
+    ]);
+    }, []);
+
+    const addToCart = async (product) => {
+        let cart = await AsyncStorage.getItem('cart');
+        cart = cart ? JSON.parse(cart) : [];
+        cart.push(product);
+        await AsyncStorage.setItem('cart', JSON.stringify(cart));
+      };
+    
+
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
         <View style={styles.header}>
@@ -9,7 +42,10 @@ export function Home() {
             <Image style={styles.logo} source={require('./assets/Logo.png')}/>
             <View style={styles.headerRight}>
                 <Image style={styles.menuIcon} source={require('./assets/Search.png')}/>
-                <Image style={styles.menuIcon} source={require('./assets/shoppingBag.png')}/>
+                <TouchableOpacity onPress={handleNavigate}>
+                    <Image style={styles.menuIcon} source={require('./assets/shoppingBag.png')}/>
+                </TouchableOpacity>
+                
             </View>
         </View>
         <View style={styles.header}>
@@ -25,48 +61,19 @@ export function Home() {
             
         </View>
         <View style={styles.product} >
-            <Item
-            ImageSrc={require('./assets/dress1.png')}
-            name={'Office Wear'}
-            description={'reversible angora cardigan'}
-            price={'$120'}/>
-            <Item
-            ImageSrc={require('./assets/dress2.png')}
-            name={'Black'}
-            description={'reversible angora cardigan'}
-            price={'$120'}/>
-            <Item
-            ImageSrc={require('./assets/dress3.png')}
-            name={'Church Wear'}
-            description={'reversible angora cardigan'}
-            price={'$120'}/>
-            <Item
-            ImageSrc={require('./assets/dress4.png')}
-            name={'Lamerei'}
-            description={'reversible angora cardigan'}
-            price={'$120'}/>
-            <Item
-            ImageSrc={require('./assets/dress5.png')}
-            name={'21WN'}
-            description={'reversible angora cardigan'}
-            price={'$120'}/>
-            <Item
-            ImageSrc={require('./assets/dress6.png')}
-            name={'Lopo'}
-            description={'reversible angora cardigan'}
-            price={'$120'}/>
-            <Item
-            ImageSrc={require('./assets/dress7.png')}
-            name={'21WN'}
-            description={'reversible angora cardigan'}
-            price={'$120'}/>
-            <Item
-            ImageSrc={require('./assets/dress3.png')}
-            name={'Lame'}
-            description={'reversible angora cardigan'}
-            price={'$120'}/>
-            
+        {products.map((product) => (
+          <Item
+            key={product.id}
+            ImageSrc={product.ImageSrc}
+            name={product.name}
+            price={product.price}
+            description={product.description}
+            addToCart={addToCart}
+            id={product.id}
+          />
+        ))}
         </View>
+        
     </ScrollView>
   )}
 
@@ -91,7 +98,7 @@ export function Home() {
     headerRight: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        flex: '0.4'
+        flex: '0.35'
     },
     heading: {
         fontSize: '27px',

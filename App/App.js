@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack'
 import { Home } from './homeScreen';
+import { CheckOut } from './checkoutScreen';
 
 
 
@@ -13,6 +14,7 @@ export default function App() {
     <NavigationContainer >
     <Stack.Navigator initialRouteName="home">
     <Stack.Screen name="home" component={Home} options={{ headerShown: false }}/>
+    <Stack.Screen name="checkout" component={CheckOut} options={{ headerShown: false }}/>
     </Stack.Navigator>
   </NavigationContainer>
 

@@ -1,16 +1,21 @@
-import { View, Text, StyleSheet, Image, ScrollView, } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, } from 'react-native';
 
-export function Item ({ImageSrc, name, price, description}) {
+
+export function Item ({ImageSrc, name, price, description, addToCart, id }) {
+
     return (
         <View style={styles.ItemContainer}>
             <Image style={styles.itemImage} source={ImageSrc}/>
-            <Image style={styles.add} source={require('../assets/add_circle.png')}/>
+            <TouchableOpacity onPress={() => addToCart({ ImageSrc, name, price, description })}>
+                <Image style={styles.add} source={require('../assets/add_circle.png')} />
+            </TouchableOpacity>
             <Text style={styles.itemName}>{name}</Text>
             <Text style={styles.description}>{description}</Text>
             <Text style={styles.price}>{price}</Text>
         </View>
     )
 }
+
 
 
 const styles = StyleSheet.create({
@@ -26,7 +31,11 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     add: {
-
+        width: '25px',
+        height: '25px',
+        position: 'absolute',
+        right: 10,
+        bottom: 20,
     },
     itemName: {
         fontWeight: 500,
