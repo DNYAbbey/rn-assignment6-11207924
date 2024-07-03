@@ -6,7 +6,7 @@ export function Item ({ImageSrc, name, price, description, addToCart, id }) {
     return (
         <View style={styles.ItemContainer}>
             <Image style={styles.itemImage} source={ImageSrc}/>
-            <TouchableOpacity onPress={() => addToCart({ ImageSrc, name, price, description })}>
+            <TouchableOpacity onPress={() => addToCart({ ImageSrc, name, price, description, id })}>
                 <Image style={styles.add} source={require('../assets/add_circle.png')} />
             </TouchableOpacity>
             <Text style={styles.itemName}>{name}</Text>

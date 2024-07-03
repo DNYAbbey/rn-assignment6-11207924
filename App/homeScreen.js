@@ -1,9 +1,8 @@
-import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity} from 'react-native';
+import { View, Text, StyleSheet, Image, ScrollView, TouchableOpacity, Alert} from 'react-native';
 import { Item } from './components/product';
 import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
 
 export function Home() {
     const navigation = useNavigation();
@@ -28,11 +27,28 @@ export function Home() {
     }, []);
 
     const addToCart = async (product) => {
-        let cart = await AsyncStorage.getItem('cart');
-        cart = cart ? JSON.parse(cart) : [];
-        cart.push(product);
-        await AsyncStorage.setItem('cart', JSON.stringify(cart));
+        try {
+            let cart = await AsyncStorage.getItem('cart');
+            cart = cart ? JSON.parse(cart) : [];
+            const productExists = cart.some(item => item.id === product.id);
+
+            if (!productExists) {
+                // Add the new product to the cart
+                cart.push(product);
+                
+                // Save the updated cart back to AsyncStorage
+                await AsyncStorage.setItem('cart', JSON.stringify(cart));
+                
+                console.log('Product added to cart:', product);
+                Alert.alert('Product added to cart');
+            } else {
+                Alert.alert('Notice', 'Product is already in the cart');
+            }
+            } catch (error) {
+            console.error('Error adding product to cart:', error);
+            }
       };
+      
     
 
   return (

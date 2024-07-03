@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, Button, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Item } from './components/product';
 
@@ -8,8 +8,8 @@ export const CheckOut = () => {
 
   useEffect(() => {
     const fetchCart = async () => {
-      let cart = await AsyncStorage.getItem('cart');
-      setCart(cart ? JSON.parse(cart) : []);
+      let savedCart = await AsyncStorage.getItem('cart');
+      setCart(savedCart ? JSON.parse(savedCart) : []);
     };
     fetchCart();
   }, []);
@@ -24,8 +24,10 @@ export const CheckOut = () => {
     await AsyncStorage.setItem('cart', JSON.stringify(updatedCart));
   };
 
+
+
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
         <View style={styles.header}>
             <View style={styles.logoView}>
             <TouchableOpacity onPress={handleNavigate}>
@@ -37,7 +39,8 @@ export const CheckOut = () => {
         </View>
         <Text style={styles.heading}>CheckOut</Text>
         {cart.map((item) => (
-            <View style={styles.product} key={item.id} >
+            <View style={styles.product}  key={item.id} >
+               
                 <Image style={styles.itemImage} source={item.ImageSrc}/>
                 <View style={styles.productRight} >
                     <Text style={styles.itemName}>{item.name}</Text>
@@ -55,16 +58,19 @@ export const CheckOut = () => {
             </View>
             ))}
 
-        <View style={styles.totalView}>
-            <Text style={styles.est}>EST. TOTAL</Text>
-            <Text style={styles.total}>$240</Text>
+        <View style={styles.bottomView}>
+            <View style={styles.totalView}>
+                <Text style={styles.est}>EST. TOTAL</Text>
+                <Text style={styles.total}>$240</Text>
+            </View>
+            <View style={styles.CheckoutView}>
+                <Image style={styles.shoppingBag} source={require('./assets/icons8-shopping-bag-50.png')} />
+                <Text style={styles.bottomheading}>CheckOut</Text>
+            </View>
         </View>
-        <View style={styles.CheckoutView}>
-            <Image style={styles.shoppingBag} source={require('./assets/Search.png')} />
-            <Text style={styles.bottomheading}>CheckOut</Text>
-        </View>
+       
         
-    </View>
+    </ScrollView>
   );
 };
 
@@ -95,27 +101,24 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     heading: {
-        fontSize: '27px',
+        fontSize: '30px',
         fontWeight: 500,
         letterSpacing: 3,
         marginBottom: '30px',
         alignItems: 'center',
-        textAlign: 'center'
+        textAlign: 'center',
     },
     product: {
         height: '100px',
         flexDirection: 'row',
         marginBottom: '20px',
         justifyContent: 'space-between',
-        width: '90%',
+        width: '95%',
 
     },
     productRight: {
         flex: 2,
         padding: 5
-    },
-    checkoutText: {
-      
     },
     bottom: {
         flexDirection: 'row',
@@ -146,10 +149,16 @@ const styles = StyleSheet.create({
         width: '25px',
         height: '25px',
     },
+    bottomView: {
+        position: 'fixed',
+        bottom: 0,
+        width: '100%',
+        left: 0,
+    },
     totalView: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginBottom: 5,
+        padding: 20,
     },
     total: {
         color: 'brown',
@@ -161,18 +170,20 @@ const styles = StyleSheet.create({
     },
     CheckoutView: {
         backgroundColor: 'black',
-        position: 'relative',
-        top: 300,
         flexDirection: 'row',
         alignItems: 'center',
-        height: 70,
-        width: '140%'
+        height: 70, 
+        justifyContent: 'center',  
+    },
+    shoppingBag: {
+        width: '35px',
+        height: '35px',
+        marginRight: '20px',
     },
     bottomheading: {
-        fontSize: '20px',
-        fontWeight: 500,
+        fontSize: '23px',
         letterSpacing: 2,
         color: 'white',
-        textAlign: 'center'
+        textAlign: 'center',
     }
 })
